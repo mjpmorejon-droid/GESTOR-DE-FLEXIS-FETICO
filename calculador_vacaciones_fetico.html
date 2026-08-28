@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculador de Vacaciones · FETICO</title>
+<style>
+:root{--g:#159447;--d:#0d5f2e;--bg:#f4f7f5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17301f}
+header{background:linear-gradient(135deg,var(--d),var(--g));color:white;text-align:center;padding:24px 15px}
+h1{margin:0 0 5px;font-size:24px}header p{margin:0}
+main{max-width:850px;margin:18px auto;padding:0 14px}.card{background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 3px 14px #0001}
+h2{margin:0 0 14px;color:var(--d);font-size:18px}.grid,.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+label{display:block;font-weight:bold;font-size:13px;margin-bottom:5px}input{width:100%;padding:11px;border:1px solid #d5e5d9;border-radius:9px;font-size:16px}
+.month{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:8px;align-items:end;padding:9px 0;border-bottom:1px solid #edf1ee}
+button{border:0;border-radius:9px;padding:11px 14px;font-weight:bold;cursor:pointer}.primary{background:var(--g);color:#fff}.secondary{background:#e9f5ec;color:var(--d)}.remove{background:#fff0f0;color:#b3261e}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.result{background:#eef9f1;border-radius:12px;padding:13px}.result small{display:block;color:#56705d}.result strong{font-size:20px;color:var(--d)}.big{grid-column:1/-1;text-align:center;background:#dff4e5}.big strong{font-size:28px}.note{font-size:13px;color:#607067;line-height:1.45}
+@media(max-width:600px){.grid,.results{grid-template-columns:1fr}.month{grid-template-columns:1fr 1fr}.remove{grid-column:1/-1}.big{grid-column:auto}}
+</style>
+</head>
+<body>
+<header><h1>Calculador de Vacaciones</h1><p>Nocturnidad · FETICO</p></header>
+<main>
+<section class="card">
+<h2>Datos de las vacaciones</h2>
+<label for="vac">Días de vacaciones a calcular</label>
+<input id="vac" type="number" min="0" step=".01" value="1">
+<p class="note">Puedes poner los días que quieras calcular: 1, 5, 10, 18, 22, etc.</p>
+</section>
+
+<section class="card">
+<h2>Últimos 11 meses</h2>
+<div id="months"></div>
+<div class="actions">
+<button class="primary" onclick="add()">＋ Añadir mes</button>
+<button class="secondary" onclick="calc()">Calcular</button>
+<button class="secondary" onclick="resetData()">Borrar datos</button>
+</div>
+</section>
+
+<section class="card">
+<h2>Resultado</h2>
+<div class="results">
+<div class="result"><small>Total nocturnidad</small><strong id="money">0,00 €</strong></div>
+<div class="result"><small>Total días trabajados</small><strong id="days">0,00</strong></div>
+<div class="result"><small>Media por día trabajado</small><strong id="daily">0,00 €</strong></div>
+<div class="result"><small>Días de vacaciones</small><strong id="vdays">0,00</strong></div>
+<div class="result big"><small>Nocturnidad estimada en vacaciones</small><strong id="vacmoney">0,00 €</strong></div>
+</div>
+<p class="note">Fórmula: total de nocturnidad de los 11 meses ÷ total de días trabajados de esos 11 meses × días de vacaciones.</p>
+</section>
+</main>
+<script>
+const KEY="fetico_vacaciones_v1";
+let data=JSON.parse(localStorage.getItem(KEY)||"null");
+if(!Array.isArray(data)||data.length!==11)data=Array.from({length:11},(_,i)=>({name:"Mes "+(i+1),money:"",days:""}));
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function render(){
+ let box=document.getElementById("months");box.innerHTML="";
+ data.forEach((m,i)=>{
+  let r=document.createElement("div");r.className="month";
+  r.innerHTML=`<div><label>Mes ${i+1}</label><input value="${esc(m.name)}" placeholder="Ej. Septiembre" oninput="data[${i}].name=this.value;save()"></div>
+  <div><label>Nocturnidad (€)</label><input type="number" min="0" step=".01" value="${m.money}" placeholder="0,00" oninput="data[${i}].money=this.value;save()"></div>
+  <div><label>Días trabajados</label><input type="number" min="0" step=".01" value="${m.days}" placeholder="0" oninput="data[${i}].days=this.value;save()"></div>
+  <button class="remove" onclick="remove(${i})">Quitar</button>`;
+  box.appendChild(r);
+ });calc();
+}
+function add(){data.push({name:"Mes "+(data.length+1),money:"",days:""});if(data.length>11)data.shift();save();render()}
+function remove(i){if(data.length>1){data.splice(i,1);save();render()}}
+function calc(){
+ let m=0,d=0;data.forEach(x=>{m+=parseFloat(x.money)||0;d+=parseFloat(x.days)||0});
+ let daily=d?m/d:0,v=parseFloat(document.getElementById("vac").value)||0;
+ document.getElementById("money").textContent=eur(m);document.getElementById("days").textContent=num(d);
+ document.getElementById("daily").textContent=eur(daily);document.getElementById("vdays").textContent=num(v);
+ document.getElementById("vacmoney").textContent=eur(daily*v);save();
+}
+function eur(n){return new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n)}
+function num(n){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)}
+function resetData(){if(confirm("¿Borrar todos los datos?")){data=Array.from({length:11},(_,i)=>({name:"Mes "+(i+1),money:"",days:""}));document.getElementById("vac").value=1;save();render()}}
+document.getElementById("vac").addEventListener("input",calc);render();
+</script>
+</body>
+</html>
