@@ -3,347 +3,242 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculador de Sueldo en Baja · FETICO</title>
+<title>Herramientas FETICO</title>
+
 <style>
-:root{--g:#168a4a;--d:#0f6f3b;--light:#eaf7ef;--border:#d8e4dc;--text:#183024;--muted:#64746b;--warn:#fff7e6;--warnb:#f0c36d}
+:root{
+  --green:#168a4a;
+  --green2:#0f6f3b;
+  --light:#eaf7ef;
+  --border:#d8e4dc;
+  --text:#183024;
+  --muted:#64746b;
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:#f5f8f6;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-.wrap{max-width:980px;margin:auto;padding:14px}
-.header{background:linear-gradient(135deg,var(--d),var(--g));color:#fff;border-radius:20px;padding:24px 18px;box-shadow:0 8px 24px #0001;text-align:center}
-.logo{width:72px;height:72px;margin:0 auto 12px;border-radius:17px;background:#fff;color:var(--d);display:grid;place-items:center;font-weight:900;font-size:20px}
-.header h1{margin:0;font-size:25px}.header p{margin:7px 0 0;opacity:.92}
-.card{background:#fff;border:1px solid var(--border);border-radius:17px;padding:18px;margin-top:16px;box-shadow:0 3px 12px #00000008}
-h2{margin:0 0 14px;color:var(--d);font-size:19px}
-h3{font-size:15px;margin:18px 0 10px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-label{display:block;font-size:13px;font-weight:750;margin-bottom:6px}
-input,select,button{font:inherit}
-input,select{width:100%;padding:11px 12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;color:var(--text)}
-input:focus,select:focus{outline:2px solid #9bd3b2;border-color:var(--g)}
-button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}
-.primary{background:var(--g);color:#fff}.primary:hover{background:var(--d)}
-.secondary{background:var(--light);color:var(--d)}
-.danger{background:#fff0ef;color:#b42318}
-.hint,.small{font-size:12px;color:var(--muted);line-height:1.45}
-.note{background:var(--warn);border:1px solid var(--warnb);border-radius:12px;padding:12px;font-size:12px;line-height:1.45;margin-top:12px}
-.row{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:8px;align-items:end;padding:9px 0;border-bottom:1px solid #edf1ee}
-.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.result{background:#eef9f1;border-radius:12px;padding:13px}
-.result small{display:block;color:#56705d}.result strong{display:block;font-size:20px;color:var(--d);margin-top:3px}
-.big{grid-column:1/-1;text-align:center;background:#dff4e5}.big strong{font-size:28px}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
-table{width:100%;border-collapse:collapse;margin-top:8px}
-th,td{text-align:left;padding:9px;border-bottom:1px solid #edf1ee;font-size:13px}
-th{color:var(--muted);font-size:12px}
-.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px 10px}
-@media(max-width:700px){.grid,.grid3,.results{grid-template-columns:1fr}.big{grid-column:auto}.row{grid-template-columns:1fr 1fr}.row .remove{grid-column:1/-1}.wrap{padding:10px}.header{padding:20px 14px}.header h1{font-size:22px}}
+
+body{
+  margin:0;
+  background:#f5f8f6;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+.header{
+  background:linear-gradient(135deg,var(--green2),var(--green));
+  color:white;
+  border-radius:20px;
+  padding:28px 22px;
+  box-shadow:0 8px 24px #0001;
+  text-align:center;
+}
+
+.logo{
+  width:78px;
+  height:78px;
+  margin:0 auto 14px;
+  border-radius:18px;
+  background:white;
+  color:var(--green2);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:-1px;
+}
+
+.header h1{
+  margin:0;
+  font-size:28px;
+}
+
+.header p{
+  margin:8px 0 0;
+  opacity:.9;
+  font-size:15px;
+}
+
+h2{
+  text-align:center;
+  font-size:21px;
+  margin:30px 0 16px;
+}
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.tool{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 4px 15px #00000008;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+}
+
+.icon{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.tool h3{
+  margin:0 0 8px;
+  font-size:20px;
+}
+
+.tool p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  min-height:63px;
+  flex:1;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px 16px;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+  background:var(--green);
+  color:white;
+  margin-top:10px;
+}
+
+button:hover{
+  background:var(--green2);
+}
+
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:25px 10px 10px;
+}
+
+@media(max-width:900px){
+  .tools{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px){
+  .wrap{
+    padding:12px;
+  }
+
+  .header{
+    padding:22px 16px;
+  }
+
+  .header h1{
+    font-size:23px;
+  }
+
+  .tools{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
 <header class="header">
   <div class="logo">FETICO</div>
-  <h1>Calculador de Sueldo en Baja</h1>
-  <p>Estimación de IT · Convenio Transporte de Mercancías · Valladolid</p>
+
+  <h1>Herramientas FETICO</h1>
+
+  <p>
+    Calculadoras y herramientas para trabajadores
+  </p>
 </header>
 
-<section class="card">
-<h2>1. Tipo y duración de la baja</h2>
-<div class="grid">
-  <div>
-    <label for="type">Tipo de baja</label>
-    <select id="type">
-      <option value="common">Enfermedad común / accidente no laboral</option>
-      <option value="work">Accidente laboral / enfermedad profesional</option>
-      <option value="hospital">Enfermedad común con hospitalización</option>
-    </select>
+<h2>Mis herramientas</h2>
+
+<div class="tools">
+
+  <!-- GESTOR DE FLEXIS -->
+
+  <div class="tool">
+
+    <div class="icon">📊</div>
+
+    <h3>Gestor de Flexis</h3>
+
+    <p>
+      Calcula y controla tus horas flexibles
+      positivas y negativas de forma sencilla.
+    </p>
+
+    <button onclick="location.href='gestor-flexis-fetico-6.html'">
+      Abrir Gestor de Flexis
+    </button>
+
   </div>
-  <div>
-    <label for="days">Días totales de baja</label>
-    <input id="days" type="number" min="1" step="1" value="30">
+
+
+  <!-- CALCULADOR DE VACACIONES -->
+
+  <div class="tool">
+
+    <div class="icon">🏖️</div>
+
+    <h3>Calculador de Vacaciones</h3>
+
+    <p>
+      Calcula la cantidad correspondiente de tus
+      vacaciones según tus datos de nómina.
+    </p>
+
+    <button onclick="location.href='calculador_vacaciones_fetico.html'">
+      Abrir Calculador de Vacaciones
+    </button>
+
   </div>
-</div>
 
-<div id="hospitalBox" style="display:none;margin-top:12px">
-  <div class="grid3">
-    <div><label for="hstart">Día de inicio de hospitalización</label><input id="hstart" type="number" min="1" step="1" value="1"></div>
-    <div><label for="hdays">Días hospitalizado/a</label><input id="hdays" type="number" min="0" step="1" value="1"></div>
-    <div><label for="endnote">Hasta el día de baja</label><input id="hend" type="text" readonly></div>
+
+  <!-- CALCULADOR DE SUELDO EN BAJA -->
+
+  <div class="tool">
+
+    <div class="icon">💶</div>
+
+    <h3>Calculador de Sueldo en Baja</h3>
+
+    <p>
+      Estima tu prestación, complemento de empresa
+      y variables durante una situación de incapacidad temporal.
+    </p>
+
+    <button onclick="location.href='calculador_bajas_fetico.html'">
+      Abrir Calculador de Sueldo en Baja
+    </button>
+
   </div>
+
 </div>
 
-<p class="hint">Los días se cuentan desde el día 1 de la baja. Para hospitalización se aplica el 100% de la base de cotización mientras dura la hospitalización, según el convenio.</p>
-</section>
-
-<section class="card">
-<h2>2. Datos para la base reguladora y el convenio</h2>
-<div class="grid">
-  <div>
-    <label for="base">Base de cotización del mes anterior (€)</label>
-    <input id="base" type="number" min="0" step="0.01" placeholder="Ej. 1880,10">
-    <p class="hint">En una nómina mensual, la base reguladora se estima con la base del mes anterior ÷ 30.</p>
-  </div>
-  <div>
-    <label for="salary">Salario base mensual (€)</label>
-    <input id="salary" type="number" min="0" step="0.01" placeholder="Ej. 1500,00">
-  </div>
-  <div>
-    <label for="seniority">Antigüedad mensual (€)</label>
-    <input id="seniority" type="number" min="0" step="0.01" value="0">
-  </div>
-  <div>
-    <label for="attendance">Plus asistencia / actividad mensual (€)</label>
-    <input id="attendance" type="number" min="0" step="0.01" placeholder="Ej. 80,09">
-    <p class="hint">Introduce el importe que corresponda a tu nómina.</p>
-  </div>
-  <div>
-    <label for="avgBase">Media de bases de cotización de los 6 meses anteriores (€)</label>
-    <input id="avgBase" type="number" min="0" step="0.01" placeholder="Necesario para el límite del convenio">
-  </div>
-  <div>
-    <label for="avgSalary">Media de salario mensual de los 6 meses anteriores, sin pagas extra (€)</label>
-    <input id="avgSalary" type="number" min="0" step="0.01" placeholder="Necesario para el límite superior">
-  </div>
-</div>
-<div class="note">
-<b>Importante:</b> para enfermedad común, el convenio indica que desde el día 4 la empresa complementa hasta el 100% de Salario Base + Antigüedad + Plus Asistencia. La suma de prestación + complemento no puede ser inferior al 20% de la media de las bases de cotización de los 6 meses anteriores ni superior a la media del salario mensual de esos 6 meses, excluida la parte proporcional de pagas extras.
-</div>
-</section>
-
-<section class="card">
-<h2>3. Variables que se cobran a mes vencido</h2>
-<p class="small">Introduce aquí las variables que <b>vas a cobrar en la nómina que estás calculando</b>, aunque se hayan generado el mes anterior.</p>
-<div id="vars"></div>
-<div class="actions">
-  <button class="secondary" id="addVar">＋ Añadir concepto</button>
-</div>
-<p class="hint">Ejemplos: nocturnidad, festivos, horas complementarias. La herramienta multiplica automáticamente cantidad × precio.</p>
-
-<div class="note">
-<b>Para evitar errores:</b> si estás calculando la nómina de junio, aquí debes poner las horas/conceptos que Amazon te pagará en junio aunque se hayan trabajado en mayo. Los conceptos generados durante junio normalmente se cobrarán en julio y no deben sumarse a la nómina de junio.
-</div>
-</section>
-
-<section class="card">
-<h2>4. Resultado estimado</h2>
-<div class="results">
-  <div class="result"><small>Base reguladora diaria estimada</small><strong id="br">0,00 €</strong></div>
-  <div class="result"><small>Prestación IT estimada</small><strong id="ss">0,00 €</strong></div>
-  <div class="result"><small>Complemento de empresa estimado</small><strong id="comp">0,00 €</strong></div>
-  <div class="result"><small>Variables a cobrar este mes</small><strong id="variables">0,00 €</strong></div>
-  <div class="result big"><small>Total bruto estimado relacionado con la baja + variables</small><strong id="total">0,00 €</strong></div>
+<div class="footer">
+  Herramientas FETICO · DQL2
 </div>
 
-<div id="detail"></div>
-
-<div class="actions">
-  <button class="primary" id="calcBtn">Calcular</button>
-  <button class="secondary" id="saveBtn">💾 Guardar datos</button>
-  <button class="secondary" id="clearBtn">Borrar datos</button>
 </div>
 
-<div class="note">
-<b>Esto es una estimación:</b> no sustituye la nómina ni el cálculo de RRHH/gestoría. El resultado depende de la base reguladora real, de cómo se imputen los conceptos en nómina y de las circunstancias concretas de cada IT.
-</div>
-</section>
-
-<div class="footer">Herramientas FETICO · Calculador de Sueldo en Baja</div>
-</div>
-
-<script>
-const KEY="fetico_bajas_v1";
-const $=id=>document.getElementById(id);
-const eur=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(Number(n)||0);
-const num=n=>new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(n)||0);
-
-let variables=[
- {name:"Nocturnidad",qty:"",price:""},
- {name:"Festivos",qty:"",price:""},
- {name:"Horas complementarias",qty:"",price:""}
-];
-
-function save(){
-  const obj={
-    type:$("type").value,days:$("days").value,hstart:$("hstart").value,hdays:$("hdays").value,
-    base:$("base").value,salary:$("salary").value,seniority:$("seniority").value,
-    attendance:$("attendance").value,avgBase:$("avgBase").value,avgSalary:$("avgSalary").value,
-    variables
-  };
-  localStorage.setItem(KEY,JSON.stringify(obj));
-}
-function load(){
-  try{
-    const d=JSON.parse(localStorage.getItem(KEY)||"null");
-    if(!d)return;
-    ["type","days","hstart","hdays","base","salary","seniority","attendance","avgBase","avgSalary"].forEach(k=>{if(d[k]!==undefined)$(k).value=d[k]});
-    if(Array.isArray(d.variables)&&d.variables.length)variables=d.variables;
-  }catch(e){}
-}
-function renderVars(){
-  const box=$("vars");box.innerHTML="";
-  variables.forEach((v,i)=>{
-    const r=document.createElement("div");r.className="row";
-    r.innerHTML=`
-      <div><label>Concepto</label><input value="${esc(v.name)}" placeholder="Ej. Nocturnidad" oninput="variables[${i}].name=this.value;save();calc()"></div>
-      <div><label>Cantidad / horas</label><input type="number" min="0" step="0.01" value="${v.qty}" placeholder="0" oninput="variables[${i}].qty=this.value;save();calc()"></div>
-      <div><label>Precio por unidad (€)</label><input type="number" min="0" step="0.0001" value="${v.price}" placeholder="0,00" oninput="variables[${i}].price=this.value;save();calc()"></div>
-      <button class="danger remove" onclick="removeVar(${i})">Quitar</button>`;
-    box.appendChild(r);
-  });
-}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-function addVar(){variables.push({name:"Nuevo concepto",qty:"",price:""});renderVars();save();calc()}
-function removeVar(i){if(variables.length>1){variables.splice(i,1);renderVars();save();calc()}}
-
-function variableTotal(){return variables.reduce((s,v)=>s+(Number(v.qty)||0)*(Number(v.price)||0),0)}
-
-function commonBenefitPerDay(day,br){
-  if(day<4)return 0;
-  return br*(day<=20?0.60:0.75);
-}
-
-function calculateDayAmounts(){
-  const type=$("type").value;
-  const days=Math.max(0,Math.floor(Number($("days").value)||0));
-  const base=Math.max(0,Number($("base").value)||0);
-  const br=base/30;
-  const salary=Math.max(0,Number($("salary").value)||0);
-  const seniority=Math.max(0,Number($("seniority").value)||0);
-  const attendance=Math.max(0,Number($("attendance").value)||0);
-  const targetCommon=salary+seniority+attendance;
-  const avgBase=Math.max(0,Number($("avgBase").value)||0);
-  const avgSalary=Math.max(0,Number($("avgSalary").value)||0);
-  const lower=avgBase*0.20;
-  const upper=avgSalary;
-
-  let ss=0,target=0,detail=[];
-  const hs=Math.max(1,Math.floor(Number($("hstart").value)||1));
-  const hd=Math.max(0,Math.floor(Number($("hdays").value)||0));
-  const he=Math.min(days,hs+hd-1);
-  $("hend").value=hd>0?String(he):"—";
-
-  for(let day=1;day<=days;day++){
-    const hospitalized=type==="hospital" && hd>0 && day>=hs && day<=he;
-    let daySS=0,dayTarget=0;
-    if(type==="work"){
-      dayTarget=br; daySS=day===1?0:br*0.75;
-    }else if(hospitalized){
-      dayTarget=br; daySS=commonBenefitPerDay(day,br);
-    }else{
-      daySS=commonBenefitPerDay(day,br);
-      if(day>=4)dayTarget=targetCommon/30;
-    }
-    ss+=daySS;target+=dayTarget;
-  }
-
-  // For work accident, convention target is 100% of base for all days.
-  // For hospitalization, target is 100% of base while hospitalized; outside it, common IT rules.
-  // For common illness, target is salary base + seniority + attendance from day 4,
-  // subject to the convention's 6-month lower/upper limits.
-  let rawTarget=target;
-  let adjustedTarget=rawTarget;
-  let limitMessage="";
-  if(type==="common" || type==="hospital"){
-    if(avgBase>0 && avgSalary>0){
-      const eligibleDays=Math.max(0,days-3);
-      const minTotal=lower*(eligibleDays/30);
-      const maxTotal=upper*(eligibleDays/30);
-      // The convention limits apply to the combined SS + company complement.
-      // We therefore cap/floor the combined amount for eligible common-IT days.
-      const commonSS=ss;
-      let desiredTotal=commonSS+rawTarget;
-      let limitedTotal=Math.max(minTotal,Math.min(maxTotal,desiredTotal));
-      adjustedTarget=Math.max(0,limitedTotal-commonSS);
-      limitMessage=`Límites de convenio aplicados sobre los días desde el día 4: mínimo proporcional ${eur(minTotal)} y máximo proporcional ${eur(maxTotal)}.`;
-    }
-  }
-
-  // Hospital days are 100% BR regardless of common target. Build exact target by day.
-  if(type==="hospital"){
-    let ss2=0,target2=0;
-    for(let day=1;day<=days;day++){
-      const hospitalized=hd>0 && day>=hs && day<=he;
-      const daySS=commonBenefitPerDay(day,br);
-      ss2+=daySS;
-      if(hospitalized) target2+=br;
-      else if(day>=4) target2+=targetCommon/30;
-    }
-    ss=ss2; rawTarget=target2; adjustedTarget=rawTarget;
-    if(avgBase>0 && avgSalary>0){
-      const commonEligible=Math.max(0,days-3-hd);
-      const minTotal=lower*(commonEligible/30)+(hd*br);
-      const maxTotal=upper*(commonEligible/30)+(hd*br);
-      const desired=ss+rawTarget;
-      const limited=Math.max(minTotal,Math.min(maxTotal,desired));
-      // preserve hospital 100% first; only adjust common complement
-      const hospitalTarget=hd*br;
-      adjustedTarget=Math.max(0,limited-ss);
-      if(adjustedTarget < hospitalTarget) adjustedTarget=hospitalTarget;
-      limitMessage=`Límites orientativos del convenio aplicados al tramo común; la hospitalización mantiene el 100% de la base mientras dura.`;
-    }
-  }
-
-  const comp=adjustedTarget;
-  const vars=variableTotal();
-  const total=ss+comp+vars;
-
-  $("br").textContent=eur(br);
-  $("ss").textContent=eur(ss);
-  $("comp").textContent=eur(comp);
-  $("variables").textContent=eur(vars);
-  $("total").textContent=eur(total);
-
-  let rows=[];
-  if(type==="common"){
-    rows=[
-      ["Días 1–3","Sin subsidio IT","0,00 €"],
-      ["Días 4–20","60% de la base reguladora","Aplicado según días"],
-      ["Desde día 21","75% de la base reguladora","Aplicado según días"],
-      ["Complemento convenio","Desde día 4, hasta el objetivo del convenio","Calculado"]
-    ];
-  }else if(type==="work"){
-    rows=[
-      ["Día 1","Salario íntegro a cargo de empresa","Incluido en objetivo"],
-      ["Desde día 2","75% de la base reguladora","Prestación IT"],
-      ["Complemento convenio","Hasta 100% de la base de cotización","Calculado"]
-    ];
-  }else{
-    rows=[
-      ["Enfermedad común fuera del hospital","Reglas generales de IT común + complemento de convenio desde día 4","Calculado"],
-      ["Durante hospitalización","Hasta 100% de la base de cotización","Calculado"],
-      ["Variables","Se muestran aparte porque se cobran a mes vencido","Calculado"]
-    ];
-  }
-  let html="<table><thead><tr><th>Concepto</th><th>Regla</th><th>Resultado</th></tr></thead><tbody>";
-  rows.forEach(r=>html+=`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`);
-  html+="</tbody></table>";
-  if(limitMessage)html+=`<p class="hint">${limitMessage}</p>`;
-  $("detail").innerHTML=html;
-  save();
-}
-
-function calc(){calculateDayAmounts()}
-
-$("type").addEventListener("change",()=>{
-  $("hospitalBox").style.display=$("type").value==="hospital"?"block":"none";
-  calc();
-});
-["days","hstart","hdays","base","salary","seniority","attendance","avgBase","avgSalary"].forEach(id=>$(id).addEventListener("input",calc));
-$("addVar").onclick=addVar;
-$("calcBtn").onclick=calc;
-$("saveBtn").onclick=()=>{save();alert("Datos guardados en este dispositivo.")};
-$("clearBtn").onclick=()=>{
-  if(confirm("¿Borrar todos los datos?")){
-    localStorage.removeItem(KEY);
-    location.reload();
-  }
-};
-
-load();
-$("hospitalBox").style.display=$("type").value==="hospital"?"block":"none";
-renderVars();
-calc();
-</script>
 </body>
 </html>
