@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculador de Sueldo en Baja · FETICO</title>
+
+<style>
+:root{
+  --g:#168a4a;
+  --d:#0f6f3b;
+  --light:#eaf7ef;
+  --border:#d8e4dc;
+  --text:#183024;
+  --muted:#64746b;
+  --warn:#fff7e6;
+  --warnb:#f0c36d;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#f5f8f6;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+.wrap{
+  max-width:980px;
+  margin:auto;
+  padding:14px;
+}
+
+.header{
+  background:linear-gradient(135deg,var(--d),var(--g));
+  color:#fff;
+  border-radius:20px;
+  padding:24px 18px;
+  box-shadow:0 8px 24px #0001;
+  text-align:center;
+}
+
+.logo{
+  width:72px;
+  height:72px;
+  margin:0 auto 12px;
+  border-radius:17px;
+  background:#fff;
+  color:var(--d);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:20px;
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:7px 0 0;
+  opacity:.92;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:0 3px 12px #00000008;
+}
+
+h2{
+  margin:0 0 14px;
+  color:var(--d);
+  font-size:19px;
+}
+
+h3{
+  font-size:15px;
+  margin:18px 0 10px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:750;
+  margin-bottom:6px;
+}
+
+input,select,button{
+  font:inherit;
+}
+
+input,select{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #cbd8d0;
+  border-radius:10px;
+  background:#fff;
+  color:var(--text);
+}
+
+input:focus,select:focus{
+  outline:2px solid #9bd3b2;
+  border-color:var(--g);
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 14px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--g);
+  color:#fff;
+}
+
+.primary:hover{
+  background:var(--d);
+}
+
+.secondary{
+  background:var(--light);
+  color:var(--d);
+}
+
+.danger{
+  background:#fff0ef;
+  color:#b42318;
+}
+
+.hint,.small{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.45;
+}
+
+.note{
+  background:var(--warn);
+  border:1px solid var(--warnb);
+  border-radius:12px;
+  padding:12px;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:12px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr auto;
+  gap:8px;
+  align-items:end;
+  padding:9px 0;
+  border-bottom:1px solid #edf1ee;
+}
+
+.results{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.result{
+  background:#eef9f1;
+  border-radius:12px;
+  padding:13px;
+}
+
+.result small{
+  display:block;
+  color:#56705d;
+}
+
+.result strong{
+  display:block;
+  font-size:20px;
+  color:var(--d);
+  margin-top:3px;
+}
+
+.big{
+  grid-column:1/-1;
+  text-align:center;
+  background:#dff4e5;
+}
+
+.big strong{
+  font-size:28px;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.actions button{
+  flex:1;
+  min-width:150px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+}
+
+th,td{
+  text-align:left;
+  padding:9px;
+  border-bottom:1px solid #edf1ee;
+  font-size:13px;
+}
+
+th{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:22px 10px;
+}
+
+@media(max-width:700px){
+  .grid,.grid3,.results{
+    grid-template-columns:1fr;
+  }
+
+  .big{
+    grid-column:auto;
+  }
+
+  .row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .row .remove{
+    grid-column:1/-1;
+  }
+
+  .wrap{
+    padding:10px;
+  }
+
+  .header{
+    padding:20px 14px;
+  }
+
+  .header h1{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+  <div class="logo">FETICO</div>
+  <h1>Calculador de Sueldo en Baja</h1>
+  <p>Estimación de IT · Convenio Transporte de Mercancías · Valladolid</p>
+</header>
+
+<section class="card">
+
+<h2>1. Tipo y duración de la baja</h2>
+
+<div class="grid">
+
+<div>
+<label for="type">Tipo de baja</label>
+
+<select id="type">
+<option value="common">Enfermedad común / accidente no laboral</option>
+<option value="work">Accidente laboral / enfermedad profesional</option>
+<option value="hospital">Enfermedad común con hospitalización</option>
+</select>
+</div>
+
+<div>
+<label for="days">Días totales de baja</label>
+<input id="days" type="number" min="1" step="1" value="30">
+</div>
+
+</div>
+
+<div id="hospitalBox" style="display:none;margin-top:12px">
+
+<div class="grid3">
+
+<div>
+<label for="hstart">Día de inicio de hospitalización</label>
+<input id="hstart" type="number" min="1" step="1" value="1">
+</div>
+
+<div>
+<label for="hdays">Días hospitalizado/a</label>
+<input id="hdays" type="number" min="0" step="1" value="1">
+</div>
+
+<div>
+<label for="hend">Hasta el día de baja</label>
+<input id="hend" type="text" readonly>
+</div>
+
+</div>
+</div>
+
+<p class="hint">
+Los días se cuentan desde el día 1 de la baja.
+</p>
+
+</section>
+
+
+<section class="card">
+
+<h2>2. Datos para el cálculo</h2>
+
+<div class="grid">
+
+<div>
+<label for="base">Base de cotización del mes anterior (€)</label>
+<input id="base" type="number" min="0" step="0.01" placeholder="Ej. 1880,10">
+<p class="hint">
+En una nómina mensual se estima la base reguladora dividiendo la base entre 30.
+</p>
+</div>
+
+<div>
+<label for="salary">Salario base mensual (€)</label>
+<input id="salary" type="number" min="0" step="0.01" placeholder="Ej. 1500,00">
+</div>
+
+<div>
+<label for="seniority">Antigüedad mensual (€)</label>
+<input id="seniority" type="number" min="0" step="0.01" value="0">
+</div>
+
+<div>
+<label for="attendance">Plus asistencia / actividad mensual (€)</label>
+<input id="attendance" type="number" min="0" step="0.01" placeholder="Ej. 80,09">
+</div>
+
+<div>
+<label for="avgBase">Media de bases de cotización de los 6 meses anteriores (€)</label>
+<input id="avgBase" type="number" min="0" step="0.01">
+</div>
+
+<div>
+<label for="avgSalary">Media de salario mensual de los 6 meses anteriores (€)</label>
+<input id="avgSalary" type="number" min="0" step="0.01">
+</div>
+
+</div>
+
+<div class="note">
+<b>Importante:</b>
+Para enfermedad común, desde el día 4 se calcula el complemento de empresa según las reglas del convenio introducidas en esta herramienta.
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>3. Variables que se cobran a mes vencido</h2>
+
+<p class="small">
+Introduce las variables que vas a cobrar en la nómina que estás calculando.
+</p>
+
+<div id="vars"></div>
+
+<div class="actions">
+<button class="secondary" id="addVar">＋ Añadir concepto</button>
+</div>
+
+<p class="hint">
+Ejemplos: nocturnidad, festivos, horas complementarias.
+</p>
+
+</section>
+
+
+<section class="card">
+
+<h2>4. Resultado estimado</h2>
+
+<div class="results">
+
+<div class="result">
+<small>Base reguladora diaria estimada</small>
+<strong id="br">0,00 €</strong>
+</div>
+
+<div class="result">
+<small>Prestación IT estimada</small>
+<strong id="ss">0,00 €</strong>
+</div>
+
+<div class="result">
+<small>Complemento de empresa estimado</small>
+<strong id="comp">0,00 €</strong>
+</div>
+
+<div class="result">
+<small>Variables a cobrar este mes</small>
+<strong id="variables">0,00 €</strong>
+</div>
+
+<div class="result big">
+<small>Total bruto estimado</small>
+<strong id="total">0,00 €</strong>
+</div>
+
+</div>
+
+<div id="detail"></div>
+
+<div class="actions">
+
+<button class="primary" id="calcBtn">
+Calcular
+</button>
+
+<button class="secondary" id="saveBtn">
+💾 Guardar datos
+</button>
+
+<button class="secondary" id="clearBtn">
+Borrar datos
+</button>
+
+</div>
+
+<div class="note">
+<b>Esto es una estimación:</b>
+no sustituye la nómina ni el cálculo de RRHH o gestoría.
+</div>
+
+</section>
+
+
+<div class="footer">
+Herramientas FETICO · Calculador de Sueldo en Baja
+</div>
+
+</div>
+
+
+<script>
+
+const KEY="fetico_bajas_v2";
+
+const $=id=>document.getElementById(id);
+
+const eur=n=>
+new Intl.NumberFormat("es-ES",{
+style:"currency",
+currency:"EUR"
+}).format(Number(n)||0);
+
+
+let variables=[
+{name:"Nocturnidad",qty:"",price:""},
+{name:"Festivos",qty:"",price:""},
+{name:"Horas complementarias",qty:"",price:""}
+];
+
+
+function esc(s){
+
+return String(s??"").replace(/[&<>"']/g,c=>({
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[c]));
+
+}
+
+
+function save(){
+
+const data={
+
+type:$("type").value,
+days:$("days").value,
+hstart:$("hstart").value,
+hdays:$("hdays").value,
+base:$("base").value,
+salary:$("salary").value,
+seniority:$("seniority").value,
+attendance:$("attendance").value,
+avgBase:$("avgBase").value,
+avgSalary:$("avgSalary").value,
+variables:variables
+
+};
+
+localStorage.setItem(KEY,JSON.stringify(data));
+
+}
+
+
+function load(){
+
+try{
+
+const data=JSON.parse(localStorage.getItem(KEY)||"null");
+
+if(!data)return;
+
+[
+"type",
+"days",
+"hstart",
+"hdays",
+"base",
+"salary",
+"seniority",
+"attendance",
+"avgBase",
+"avgSalary"
+].forEach(k=>{
+
+if(data[k]!==undefined){
+
+$(k).value=data[k];
+
+}
+
+});
+
+if(Array.isArray(data.variables)&&data.variables.length){
+
+variables=data.variables;
+
+}
+
+}catch(e){}
+
+}
+
+
+function renderVars(){
+
+const box=$("vars");
+
+box.innerHTML="";
+
+variables.forEach((v,i)=>{
+
+const row=document.createElement("div");
+
+row.className="row";
+
+row.innerHTML=`
+
+<div>
+
+<label>Concepto</label>
+
+<input
+value="${esc(v.name)}"
+placeholder="Ej. Nocturnidad"
+oninput="variables[${i}].name=this.value;save();calc()">
+
+</div>
+
+<div>
+
+<label>Cantidad / horas</label>
+
+<input
+type="number"
+min="0"
+step="0.01"
+value="${v.qty}"
+placeholder="0"
+oninput="variables[${i}].qty=this.value;save();calc()">
+
+</div>
+
+<div>
+
+<label>Precio por unidad (€)</label>
+
+<input
+type="number"
+min="0"
+step="0.0001"
+value="${v.price}"
+placeholder="0,00"
+oninput="variables[${i}].price=this.value;save();calc()">
+
+</div>
+
+<button
+class="danger remove"
+onclick="removeVar(${i})">
+Quitar
+</button>
+
+`;
+
+box.appendChild(row);
+
+});
+
+}
+
+
+function addVar(){
+
+variables.push({
+name:"Nuevo concepto",
+qty:"",
+price:""
+});
+
+renderVars();
+save();
+calc();
+
+}
+
+
+function removeVar(i){
+
+if(variables.length>1){
+
+variables.splice(i,1);
+
+renderVars();
+save();
+calc();
+
+}
+
+}
+
+
+function variableTotal(){
+
+return variables.reduce(
+
+(total,v)=>
+total+
+(Number(v.qty)||0)*
+(Number(v.price)||0),
+
+0
+
+);
+
+}
+
+
+function benefitPerDay(day,br){
+
+if(day<4)return 0;
+
+return br*(day<=20?0.60:0.75);
+
+}
+
+
+function calculate(){
+
+const type=$("type").value;
+
+const days=Math.max(
+0,
+Math.floor(Number($("days").value)||0)
+);
+
+const base=Math.max(
+0,
+Number($("base").value)||0
+);
+
+const br=base/30;
+
+const salary=Math.max(
+0,
+Number($("salary").value)||0
+);
+
+const seniority=Math.max(
+0,
+Number($("seniority").value)||0
+);
+
+const attendance=Math.max(
+0,
+Number($("attendance").value)||0
+);
+
+const targetCommon=
+salary+
+seniority+
+attendance;
+
+
+let ss=0;
+let target=0;
+
+
+const hs=Math.max(
+1,
+Math.floor(Number($("hstart").value)||1)
+);
+
+const hd=Math.max(
+0,
+Math.floor(Number($("hdays").value)||0)
+);
+
+const he=Math.min(
+days,
+hs+hd-1
+);
+
+
+$("hend").value=
+hd>0?String(he):"—";
+
+
+for(let day=1;day<=days;day++){
+
+const hospitalized=
+type==="hospital" &&
+hd>0 &&
+day>=hs &&
+day<=he;
+
+
+if(type==="work"){
+
+ss+=day===1?0:br*0.75;
+target+=br;
+
+}
+
+else if(hospitalized){
+
+ss+=benefitPerDay(day,br);
+target+=br;
+
+}
+
+else{
+
+ss+=benefitPerDay(day,br);
+
+if(day>=4){
+
+target+=targetCommon/30;
+
+}
+
+}
+
+}
+
+
+const vars=variableTotal();
+
+const comp=Math.max(0,target-ss);
+
+const total=ss+comp+vars;
+
+
+$("br").textContent=eur(br);
+
+$("ss").textContent=eur(ss);
+
+$("comp").textContent=eur(comp);
+
+$("variables").textContent=eur(vars);
+
+$("total").textContent=eur(total);
+
+
+let rows=[];
+
+
+if(type==="common"){
+
+rows=[
+
+[
+"Días 1–3",
+"Sin subsidio IT",
+"0,00 €"
+],
+
+[
+"Días 4–20",
+"60% de la base reguladora",
+"Aplicado"
+],
+
+[
+"Desde día 21",
+"75% de la base reguladora",
+"Aplicado"
+],
+
+[
+"Complemento",
+"Desde día 4",
+"Calculado"
+]
+
+];
+
+}
+
+else if(type==="work"){
+
+rows=[
+
+[
+"Día 1",
+"Salario íntegro",
+"Calculado"
+],
+
+[
+"Desde día 2",
+"75% de la base reguladora",
+"Calculado"
+],
+
+[
+"Complemento",
+"Hasta el objetivo indicado",
+"Calculado"
+]
+
+];
+
+}
+
+else{
+
+rows=[
+
+[
+"Enfermedad común",
+"Reglas generales de IT",
+"Calculado"
+],
+
+[
+"Hospitalización",
+"100% de la base durante hospitalización",
+"Calculado"
+],
+
+[
+"Variables",
+"Conceptos a mes vencido",
+"Calculado"
+]
+
+];
+
+}
+
+
+let html=`
+
+<table>
+
+<thead>
+
+<tr>
+<th>Concepto</th>
+<th>Regla</th>
+<th>Resultado</th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+
+rows.forEach(r=>{
+
+html+=`
+
+<tr>
+
+<td>${r[0]}</td>
+
+<td>${r[1]}</td>
+
+<td>${r[2]}</td>
+
+</tr>
+
+`;
+
+});
+
+
+html+=`
+
+</tbody>
+
+</table>
+
+`;
+
+
+$("detail").innerHTML=html;
+
+save();
+
+}
+
+
+function calc(){
+
+calculate();
+
+}
+
+
+$("type").addEventListener("change",()=>{
+
+$("hospitalBox").style.display=
+$("type").value==="hospital"
+?"block"
+:"none";
+
+calc();
+
+});
+
+
+[
+"days",
+"hstart",
+"hdays",
+"base",
+"salary",
+"seniority",
+"attendance",
+"avgBase",
+"avgSalary"
+].forEach(id=>{
+
+$(id).addEventListener("input",calc);
+
+});
+
+
+$("addVar").onclick=addVar;
+
+$("calcBtn").onclick=calc;
+
+
+$("saveBtn").onclick=()=>{
+
+save();
+
+alert("Datos guardados en este dispositivo.");
+
+};
+
+
+$("clearBtn").onclick=()=>{
+
+if(confirm("¿Borrar todos los datos?")){
+
+localStorage.removeItem(KEY);
+
+location.reload();
+
+}
+
+};
+
+
+load();
+
+$("hospitalBox").style.display=
+$("type").value==="hospital"
+?"block"
+:"none";
+
+renderVars();
+
+calc();
+
+</script>
+
+</body>
+</html>
