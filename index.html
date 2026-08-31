@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Herramientas FETICO</title>
 
 <style>
+
 :root{
   --green:#168a4a;
   --green2:#0f6f3b;
@@ -23,121 +25,170 @@ body{
   margin:0;
   background:#f5f8f6;
   color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 .wrap{
-  max-width:1100px;
+  max-width:950px;
   margin:auto;
   padding:18px;
 }
 
+
+/* CABECERA */
+
 .header{
-  background:linear-gradient(135deg,var(--green2),var(--green));
+  background:linear-gradient(
+    135deg,
+    var(--green2),
+    var(--green)
+  );
+
   color:white;
+
   border-radius:20px;
-  padding:28px 22px;
-  box-shadow:0 8px 24px #0001;
+
+  padding:28px;
+
   text-align:center;
+
+  box-shadow:
+    0 8px 24px #0001;
 }
 
 .logo{
-  width:78px;
-  height:78px;
-  margin:0 auto 14px;
+  width:72px;
+  height:72px;
+
   border-radius:18px;
+
   background:white;
+
   color:var(--green2);
+
   display:grid;
+
   place-items:center;
+
+  margin:
+    0 auto 14px;
+
   font-weight:900;
-  font-size:22px;
-  letter-spacing:-1px;
+
+  font-size:20px;
 }
 
 .header h1{
   margin:0;
-  font-size:28px;
+  font-size:29px;
 }
 
-.header p{
-  margin:8px 0 0;
-  opacity:.9;
-  font-size:15px;
+.subtitle{
+  margin:
+    8px 0 0;
+
+  opacity:.92;
+
+  font-size:14px;
 }
 
-h2{
-  text-align:center;
-  font-size:21px;
-  margin:30px 0 16px;
-}
 
-.tools{
+/* HERRAMIENTAS */
+
+.grid{
+
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:16px;
+
+  margin-top:22px;
 }
 
-.tool{
+.card{
+
+  display:block;
+
   background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:24px;
-  box-shadow:0 4px 15px #00000008;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:17px;
+
+  padding:22px;
+
+  text-decoration:none;
+
+  color:var(--text);
+
+  box-shadow:
+    0 3px 12px
+    #00000008;
+
+  transition:
+    transform .15s,
+    box-shadow .15s;
+}
+
+.card:hover{
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 8px 20px
+    #0002;
 }
 
 .icon{
-  font-size:42px;
-  margin-bottom:12px;
+
+  font-size:35px;
+
+  margin-bottom:8px;
 }
 
-.tool h3{
-  margin:0 0 8px;
+.card h2{
+
+  margin:
+    0 0 7px;
+
   font-size:20px;
 }
 
-.tool p{
+.card p{
+
+  margin:0;
+
   color:var(--muted);
+
   font-size:14px;
+
   line-height:1.5;
-  min-height:63px;
-  flex:1;
 }
 
-button{
-  width:100%;
-  border:0;
-  border-radius:12px;
-  padding:14px 16px;
-  font:inherit;
-  font-weight:800;
-  cursor:pointer;
-  background:var(--green);
-  color:white;
-  margin-top:10px;
-}
 
-button:hover{
-  background:var(--green2);
-}
+/* PIE */
 
 .footer{
+
   text-align:center;
+
   color:var(--muted);
+
   font-size:12px;
-  padding:25px 10px 10px;
+
+  padding:25px 10px;
 }
 
-@media(max-width:900px){
-  .tools{
-    grid-template-columns:1fr 1fr;
-  }
-}
 
-@media(max-width:600px){
+/* MOVIL */
+
+@media(max-width:650px){
+
   .wrap{
     padding:12px;
   }
@@ -147,94 +198,148 @@ button:hover{
   }
 
   .header h1{
-    font-size:23px;
+    font-size:24px;
   }
 
-  .tools{
+  .grid{
     grid-template-columns:1fr;
   }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
 <div class="wrap">
 
+
 <header class="header">
 
-  <div class="logo">FETICO</div>
+  <div class="logo">
+    FETICO
+  </div>
 
-  <h1>Herramientas FETICO</h1>
+  <h1>
+    Herramientas FETICO
+  </h1>
 
-  <p>
-    Calculadoras y herramientas para trabajadores
-  </p>
+  <div class="subtitle">
+    Herramientas útiles para el seguimiento
+    de tu jornada y tus derechos
+  </div>
 
 </header>
 
-<h2>Mis herramientas</h2>
 
-<div class="tools">
+<main class="grid">
 
-  <div class="tool">
 
-    <div class="icon">📊</div>
+<!-- GESTOR DE FLEXIS -->
 
-    <h3>Gestor de Flexis</h3>
+<a
+  class="card"
+  href="gestor-flexis-fetico-6.html"
+>
 
-    <p>
-      Calcula y controla tus horas flexibles
-      positivas y negativas de forma sencilla.
-    </p>
-
-    <button onclick="window.location.href='./gestor-flexis-fetico-6.html'">
-      Abrir Gestor de Flexis
-    </button>
-
+  <div class="icon">
+    📊
   </div>
 
+  <h2>
+    Gestor de Flexis
+  </h2>
 
-  <div class="tool">
+  <p>
+    Control de flexis positivas,
+    negativas, VTO y vencimientos.
+  </p>
 
-    <div class="icon">🏖️</div>
+</a>
 
-    <h3>Calculador de Vacaciones</h3>
 
-    <p>
-      Calcula la cantidad correspondiente de tus
-      vacaciones según tus datos de nómina.
-    </p>
+<!-- CALCULADOR DE VACACIONES -->
 
-    <button onclick="window.location.href='./calculador_vacaciones_fetico.html'">
-      Abrir Calculador de Vacaciones
-    </button>
+<a
+  class="card"
+  href="calculador_vacaciones_fetico.html"
+>
 
+  <div class="icon">
+    🏖️
   </div>
 
+  <h2>
+    Calculador de Vacaciones
+  </h2>
 
-  <div class="tool">
+  <p>
+    Calcula la cantidad correspondiente
+    de tus vacaciones.
+  </p>
 
-    <div class="icon">💶</div>
+</a>
 
-    <h3>Calculador de Sueldo en Baja</h3>
 
-    <p>
-      Estima tu prestación, complemento de empresa
-      y variables durante una situación de incapacidad temporal.
-    </p>
+<!-- CALCULADOR DE BAJAS -->
 
-    <button onclick="window.location.href='./calculador_bajas_fetico.html'">
-      Abrir Calculador de Sueldo en Baja
-    </button>
+<a
+  class="card"
+  href="calculador_bajas_fetico.html"
+>
 
+  <div class="icon">
+    💶
   </div>
 
-</div>
+  <h2>
+    Calculador de Sueldo en Baja
+  </h2>
+
+  <p>
+    Calcula una estimación de la nómina
+    durante una baja.
+  </p>
+
+</a>
+
+
+<!-- GESTOR DE ROTACIONES -->
+
+<a
+  class="card"
+  href="gestor-rotaciones-fetico.html"
+>
+
+  <div class="icon">
+    🔄
+  </div>
+
+  <h2>
+    Gestor de Rotaciones
+  </h2>
+
+  <p>
+    Apunta tus rotaciones diarias
+    y consulta al final del mes
+    las horas realizadas en cada puesto.
+  </p>
+
+</a>
+
+
+</main>
+
 
 <div class="footer">
-  Herramientas FETICO · DQL2
+
+  Herramientas FETICO
+
 </div>
+
 
 </div>
 
