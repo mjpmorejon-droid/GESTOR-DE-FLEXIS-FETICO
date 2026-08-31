@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestor de Rotaciones FETICO</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#17202a;--muted:#667085;--line:#dfe3e8;--accent:#2563eb;--danger:#dc2626;--ok:#15803d}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#111827;color:white;padding:20px 16px;text-align:center} header h1{margin:0 0 5px;font-size:1.5rem} header p{margin:0;color:#d1d5db}
+main{max-width:1100px;margin:auto;padding:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px #00000008}
+h2{font-size:1.1rem;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+label{font-size:.85rem;font-weight:650;display:block;margin-bottom:5px}input,select,button{font:inherit}input,select{width:100%;padding:10px;border:1px solid #cfd5dc;border-radius:9px;background:white}
+button{border:0;border-radius:9px;padding:10px 14px;cursor:pointer;font-weight:650}.primary{background:var(--accent);color:white}.secondary{background:#e5e7eb}.danger{background:#fee2e2;color:#991b1b}.success{background:#dcfce7;color:#166534}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.monthbar{display:flex;align-items:center;justify-content:space-between;gap:10px}.monthbar input{max-width:190px}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:.9rem}th{background:#f8fafc}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:.8rem}.muted{color:var(--muted)}
+.summarygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.summary{border:1px solid var(--line);border-radius:10px;padding:12px}.summary strong{display:block;font-size:1.05rem}.empty{text-align:center;padding:22px;color:var(--muted)}
+.notice{font-size:.85rem;color:var(--muted);margin-top:8px}.water{background:#eff6ff}.full{background:#f5f3ff}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.summarygrid{grid-template-columns:1fr 1fr}main{padding:10px}.card{padding:13px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.summarygrid{grid-template-columns:1fr}.monthbar{align-items:stretch;flex-direction:column}.monthbar input{max-width:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>Gestor de Rotaciones FETICO</h1>
+<p>Registro diario y resumen mensual de horas por puesto</p>
+</header>
+<main>
+
+<section class="card">
+  <div class="monthbar">
+    <div>
+      <h2 style="margin-bottom:3px">Mes</h2>
+      <span class="muted">Los registros se guardan automáticamente en este navegador.</span>
+    </div>
+    <input id="monthPicker" type="month">
+  </div>
+</section>
+
+<section class="card">
+<h2>➕ Añadir rotación</h2>
+<div class="grid">
+  <div><label>Fecha</label><input id="date" type="date"></div>
+  <div><label>Puesto</label><select id="position"></select></div>
+  <div><label>Inicio</label><input id="start" type="time"></div>
+  <div><label>Fin</label><input id="end" type="time"></div>
+</div>
+<div class="actions">
+  <button class="primary" id="addBtn">Añadir rotación</button>
+  <button class="secondary" id="clearForm">Limpiar</button>
+</div>
+<div class="notice">Puedes añadir varias rotaciones el mismo día. El descanso no se cuenta como horas trabajadas.</div>
+</section>
+
+<section class="card">
+<h2>☕ Descanso</h2>
+<div class="grid">
+  <div><label>Fecha</label><input id="breakDate" type="date"></div>
+  <div><label>Inicio del descanso</label><input id="breakStart" type="time" value="04:30"></div>
+  <div><label>Fin del descanso</label><input id="breakEnd" type="time" value="05:00"></div>
+  <div><label>Aplicar a todo el día</label><button class="secondary" id="saveBreak">Guardar descanso</button></div>
+</div>
+<div class="notice">Por defecto se propone 04:30–05:00, pero puedes cambiarlo cada día.</div>
+</section>
+
+<section class="card">
+<h2>📋 Días completos</h2>
+<div class="grid">
+  <div><label>Fecha</label><input id="fullDate" type="date"></div>
+  <div><label>Tipo</label><select id="fullType"></select></div>
+  <div><label>Horas del turno</label><input id="fullHours" type="number" min="0" max="24" step="0.25" value="7.75"></div>
+</div>
+<div class="actions"><button class="primary" id="addFull">Añadir día completo</button></div>
+<div class="notice">Las horas de un día completo se suman al total general, pero no a ningún puesto.</div>
+</section>
+
+<section class="card">
+<h2>📅 Registros de <span id="monthTitle"></span></h2>
+<div class="tablewrap">
+<table><thead><tr><th>Fecha</th><th>Puesto / tipo</th><th>Inicio</th><th>Fin</th><th>Horas</th><th></th></tr></thead>
+<tbody id="records"></tbody></table>
+</div>
+</section>
+
+<section class="card">
+<h2>📊 Resumen mensual por puesto</h2>
+<div id="summary" class="summarygrid"></div>
+</section>
+
+<section class="card">
+<h2>💧 Resumen de Water</h2>
+<div id="waterSummary" class="summarygrid"></div>
+<div class="notice">Los tramos se calculan por la intersección de tus rotaciones de Water con cada tramo, aunque las horas reales sean distintas.</div>
+</section>
+
+<section class="card">
+<h2>💾 Copia de seguridad</h2>
+<div class="actions">
+<button class="success" id="exportBtn">Guardar copia</button>
+<button class="secondary" id="importBtn">Restaurar copia</button>
+<input id="fileInput" type="file" accept=".json,application/json" hidden>
+</div>
+<div class="notice">La copia contiene todos los meses guardados en este navegador.</div>
+</section>
+
+</main>
+<script>
+const POSITIONS=[
+"Dock","Problem","Water","Water- Descarga","Feeder","Inductor","Team leaver",
+"Stow","Straightener","Rutas xpt","Rutas SD","Sideline","Poner bolsas"
+];
+const FULL_TYPES=["Flexi","VPO","Asuntos propios","Fuerza mayor","Horas sindicales","Permiso retribuido","Ausencia"];
+const KEY="fetico_rotaciones_v1";
+let data=JSON.parse(localStorage.getItem(KEY)||'{"rotations":[],"breaks":[],"fullDays":[]}');
+
+const $=id=>document.getElementById(id);
+POSITIONS.forEach(x=>$("position").add(new Option(x,x)));
+FULL_TYPES.forEach(x=>$("fullType").add(new Option(x,x)));
+
+function pad(n){return String(n).padStart(2,"0")}
+function today(){let d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function currentMonth(){let d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)}
+$("date").value=today(); $("breakDate").value=today(); $("fullDate").value=today(); $("monthPicker").value=currentMonth();
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function minutes(t){let [h,m]=t.split(":").map(Number);return h*60+m}
+function duration(a,b){let x=minutes(a),y=minutes(b);if(y<=x)y+=1440;return y-x}
+function fmt(min){let h=Math.floor(min/60),m=Math.round(min%60);return h+" h "+m+" min"}
+function selectedMonth(){return $("monthPicker").value}
+
+function breakFor(date){
+ let arr=data.breaks.filter(x=>x.date===date);
+ return arr.length?arr[arr.length-1]:null;
+}
+function effectiveWorked(date,start,end){
+ let total=duration(start,end), br=breakFor(date);
+ if(!br)return total;
+ let a=minutes(start),b=minutes(end); if(b<=a)b+=1440;
+ let x=minutes(br.start),y=minutes(br.end); if(y<=x)y+=1440;
+ let overlap=Math.max(0,Math.min(b,y)-Math.max(a,x));
+ return Math.max(0,total-overlap);
+}
+function overlapWith(start,end,segStart,segEnd){
+ let a=minutes(start),b=minutes(end);if(b<=a)b+=1440;
+ let x=minutes(segStart),y=minutes(segEnd);if(y<=x)y+=1440;
+ return Math.max(0,Math.min(b,y)-Math.max(a,x));
+}
+
+function render(){
+ const mo=selectedMonth(); $("monthTitle").textContent=mo;
+ let rs=data.rotations.filter(x=>x.date.startsWith(mo)).sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));
+ let fs=data.fullDays.filter(x=>x.date.startsWith(mo)).sort((a,b)=>a.date.localeCompare(b.date));
+ let rows=[];
+ rs.forEach(x=>rows.push(`<tr><td>${x.date}</td><td><span class="badge">${x.position}</span></td><td>${x.start}</td><td>${x.end}</td><td>${fmt(effectiveWorked(x.date,x.start,x.end))}</td><td><button class="danger" onclick="deleteRotation('${x.id}')">🗑️</button></td></tr>`));
+ fs.forEach(x=>rows.push(`<tr><td>${x.date}</td><td><span class="badge full">${x.type}</span></td><td>—</td><td>—</td><td>${fmt(Math.round(x.hours*60))}</td><td><button class="danger" onclick="deleteFull('${x.id}')">🗑️</button></td></tr>`));
+ $("records").innerHTML=rows.length?rows.join(""):`<tr><td colspan="6" class="empty">No hay registros en este mes.</td></tr>`;
+
+ let totals={}; POSITIONS.forEach(p=>totals[p]=0);
+ rs.forEach(x=>totals[x.position]+=effectiveWorked(x.date,x.start,x.end));
+ $("summary").innerHTML=POSITIONS.map(p=>`<div class="summary"><strong>${p}</strong>${fmt(totals[p])}</div>`).join("");
+
+ const seg=[["01:00","04:30"],["05:00","07:00"],["07:00","09:15"]];
+ const wm=seg.map(([a,b])=>rs.filter(x=>x.position==="Water").reduce((s,x)=>s+overlapWith(x.start,x.end,a,b),0));
+ $("waterSummary").innerHTML=seg.map((s,i)=>`<div class="summary water"><strong>Tramo ${i+1}</strong>${s[0]}–${s[1]}<br><b>${fmt(wm[i])}</b></div>`).join("");
+}
+window.deleteRotation=id=>{data.rotations=data.rotations.filter(x=>x.id!==id);save();render()}
+window.deleteFull=id=>{data.fullDays=data.fullDays.filter(x=>x.id!==id);save();render()}
+
+$("addBtn").onclick=()=>{
+ let date=$("date").value,start=$("start").value,end=$("end").value,pos=$("position").value;
+ if(!date||!start||!end)return alert("Completa fecha, inicio y fin.");
+ if(duration(start,end)<=0)return alert("La duración debe ser mayor que 0.");
+ data.rotations.push({id:crypto.randomUUID(),date,position:pos,start,end});save();render();
+};
+$("clearForm").onclick=()=>{$("date").value=today();$("start").value="";$("end").value=""};
+$("saveBreak").onclick=()=>{
+ let date=$("breakDate").value,start=$("breakStart").value,end=$("breakEnd").value;
+ if(!date||!start||!end)return alert("Completa los datos del descanso.");
+ data.breaks=data.breaks.filter(x=>x.date!==date);data.breaks.push({date,start,end});save();render();
+};
+$("addFull").onclick=()=>{
+ let date=$("fullDate").value,type=$("fullType").value,h=Number($("fullHours").value);
+ if(!date||!h)return alert("Completa fecha y horas.");
+ data.fullDays.push({id:crypto.randomUUID(),date,type,hours:h});save();render();
+};
+$("monthPicker").onchange=render;
+
+$("exportBtn").onclick=()=>{
+ let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gestor-rotaciones-fetico-copia.json";a.click();URL.revokeObjectURL(a.href);
+};
+$("importBtn").onclick=()=>$("fileInput").click();
+$("fileInput").onchange=e=>{
+ let f=e.target.files[0];if(!f)return;
+ let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.rotations||!x.breaks||!x.fullDays)throw 0;data=x;save();render();alert("Copia restaurada correctamente.");}catch{alert("El archivo no parece una copia válida.");}};r.readAsText(f);
+};
+render();
+</script>
+</body>
+</html>
