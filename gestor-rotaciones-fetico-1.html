@@ -69,7 +69,7 @@ button{border:0;border-radius:9px;padding:10px 14px;cursor:pointer;font-weight:6
 <div class="grid">
   <div><label>Fecha</label><input id="fullDate" type="date"></div>
   <div><label>Tipo</label><select id="fullType"></select></div>
-  <div><label>Horas del turno</label><input id="fullHours" type="number" min="0" max="24" step="0.25" value="7.75"></div>
+  <div><label>Horas del turno</label><input id="fullHours" type="number" min="0" max="24" step="0.25" value="8"></div>
 </div>
 <div class="actions"><button class="primary" id="addFull">Añadir día completo</button></div>
 <div class="notice">Las horas de un día completo se suman al total general, pero no a ningún puesto.</div>
@@ -110,7 +110,7 @@ const POSITIONS=[
 "Dock","Problem","Water","Water- Descarga","Feeder","Picker","Inductor","Team leaver",
 "Stow","Straightener","Rutas xpt","Rutas SD","Sideline","Poner bolsas","Carga camiones"
 ];
-const FULL_TYPES=["Flexi","VPO","Asuntos propios","Fuerza mayor","Horas sindicales","Permiso retribuido","Ambasador","Descanso semanal","Ausencia"];
+const FULL_TYPES=["Flexi","VPO","Asuntos propios","Fuerza mayor","Horas sindicales","Permiso retribuido","Ambasador","Vacaciones","Descanso semanal","Ausencia"];
 const KEY="fetico_rotaciones_v1";
 let data=JSON.parse(localStorage.getItem(KEY)||'{"rotations":[],"breaks":[],"fullDays":[]}');
 
